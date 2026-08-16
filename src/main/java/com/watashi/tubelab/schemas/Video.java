@@ -8,8 +8,17 @@ public class Video {
     private String description;
 
     private String filename;
-    private long size;
+    private String size;
     private String contentType;
+
+    public Video (UUID id, String title, String description, String filename, String size, String contentType) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.filename = filename;
+        this.size = size;
+        this.contentType = contentType;
+    }
 
     public String getContentType() {
         return contentType;
@@ -27,7 +36,7 @@ public class Video {
         return id;
     }
 
-    public long getSize() {
+    public String getSize() {
         return size;
     }
 

@@ -8,15 +8,14 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
-
-import com.watashi.tubelab.schemas.Video;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository
 public class VideoRepository {
 
     private final Path storagePath = Paths.get("tubelab/videos");
     
-    public boolean save(Video video, InputStream input) {
+    public boolean save(InputStream input) {
 
         try {
             Files.createDirectories(storagePath);
@@ -25,14 +24,21 @@ public class VideoRepository {
             Path   destination = storagePath.resolve(fileName);
 
             Files.copy(input, destination);
-
-            
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
 
         return true; // saved
+    }
+
+    public boolean save(MultipartFile input) {        
+        try (InputStream st = input.getInputStream()) {
+            return this.save(st);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

@@ -21,15 +21,7 @@ public class VideoController {
 
     @PostMapping
     public String upload(@RequestParam("video") MultipartFile video){
-        
-        try (InputStream input = video.getInputStream()) {
-            service.save(null, input);
-        } catch ( IOException e) {
-            e.printStackTrace();
-            return "error";
-        }
-        
-        return "uploaded";
+        return service.save(video) ? "uploaded" : "an error ocurred";
     }
 
 
