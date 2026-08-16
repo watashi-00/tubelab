@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +41,12 @@ public class VideoRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Resource stream(String id) {
+        Path path = Paths.get("videos", id + ".mp4");
+
+        return new FileSystemResource(path);
     }
 
 }
