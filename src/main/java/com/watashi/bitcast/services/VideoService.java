@@ -45,4 +45,8 @@ public class VideoService {
         return repository.findAll();
     }
 
+    public String delete(String id) {
+        return repository.delete(id) ? "deleted" : "no exists";
+    }
+
 }

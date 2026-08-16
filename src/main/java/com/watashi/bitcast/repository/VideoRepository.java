@@ -84,13 +84,14 @@ public class VideoRepository {
         
     }
 
-    public void delete(String id) {
+    public boolean delete(String id) {
         Path file = storagePath.resolve(id + ".mp4");
 
         try {
-            Files.deleteIfExists(file);   
+            return Files.deleteIfExists(file);   
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
     }
