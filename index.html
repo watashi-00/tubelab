@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TubeLab</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .video {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>TubeLab</h1>
+
+<section>
+    <h2>Upload</h2>
+
+    <input id="videoInput" type="file" accept="video/*">
+    <button onclick="uploadVideo()">Upload</button>
+
+    <p id="uploadStatus"></p>
+</section>
+
+<section>
+    <h2>Videos</h2>
+
+    <button onclick="loadVideos()">Refresh</button>
+
+    <div id="videos"></div>
+</section>
+
+<section>
+    <h2>Player</h2>
+
+    <video id="player" controls></video>
+</section>
+
+<script>
+
+const API = "http://localhost:8080";
+
+async function uploadVideo() {
+
+    const input = document.getElementById("videoInput");
+    const status = document.getElementById("uploadStatus");
+
+    if (!input.files.length) {
+        status.textContent = "Select a video first.";
+        return;
+    }
+
+    const form = new FormData();
+    form.append("video", input.files[0]);
+
+    status.textContent = "Uploading...";
+
+    try {
+
+        const response = await fetch(`${API}/videos`, {
+            method: "POST",
+            body: form
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        status.textContent = "Uploaded.";
+
+        await loadVideos();
+
+    } catch (error) {
+
+        console.error(error);
+        status.textContent = `Upload failed: ${error.message}`;
+
+    }
+}
+
+
+async function loadVideos() {
+
+    const container = document.getElementById("videos");
+
+    container.textContent = "Loading...";
+
+    try {
+
+        const response = await fetch(`${API}/videos`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const videos = await response.json();
+
+        container.innerHTML = "";
+
+        for (const video of videos) {
+
+            const element = document.createElement("div");
+
+            element.className = "video";
+
+            element.innerHTML = `
+                <strong>${video.id}</strong>
+                <button onclick="playVideo('${video.id}')">
+                    Play
+                </button>
+            `;
+
+            container.appendChild(element);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.textContent =
+            `Failed to load videos: ${error.message}`;
+    }
+}
+
+
+function playVideo(id) {
+
+    const player = document.getElementById("player");
+
+    player.src = `${API}/videos/${id}/stream`;
+
+    player.play();
+}
+
+
+loadVideos();
+
+</script>
+
+</body>
+</html>

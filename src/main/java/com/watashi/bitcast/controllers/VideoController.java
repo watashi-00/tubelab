@@ -1,11 +1,12 @@
 package com.watashi.bitcast.controllers;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.watashi.bitcast.dto.VideoInfo;
 import com.watashi.bitcast.services.VideoService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/videos")
 public class VideoController {
     
@@ -31,14 +33,18 @@ public class VideoController {
 
 
     @GetMapping("/{id}/stream")
-    public ResponseEntity<Resource> stream(@PathVariable String id) throws IOException {
+    public ResponseEntity<Resource> stream(@PathVariable String id) {
         return service.stream(id);
     }
 
     @GetMapping
     public ResponseEntity<List<VideoInfo>> getVideos() {
         return ResponseEntity.ok(service.getVideos());
+    }
 
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable String id) {
+        return service.delete(id);
     }
 
 }
