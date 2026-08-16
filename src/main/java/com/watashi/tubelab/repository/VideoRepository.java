@@ -5,12 +5,16 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.watashi.tubelab.dto.VideoInfo;
 
 @Repository
 public class VideoRepository {
@@ -43,10 +47,28 @@ public class VideoRepository {
         }
     }
 
-    public Resource stream(String id) {
-        Path path = Paths.get("videos", id + ".mp4");
+    public Resource get(String id) {
+        Path path = storagePath.resolve(id + ".mp4");
 
         return new FileSystemResource(path);
+    }
+
+    public List<VideoInfo> findAll() {
+        try(Stream<Path> files = Files.list(storagePath)) {
+            return files
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".mp4"))
+                    .map(path -> {
+                        String fileName = path.getFileName().toString();
+
+                        String id = fileName.substring(0, fileName.length() - ".mp4".length());
+
+                        return new VideoInfo(id);
+                    })
+                    .toList();
+        } catch(IOException e) {
+            throw new RuntimeException("Could not list videos", e);
+        }
     }
 
 }

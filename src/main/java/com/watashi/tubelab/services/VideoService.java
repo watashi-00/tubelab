@@ -1,7 +1,9 @@
 package com.watashi.tubelab.services;
 
 import java.io.InputStream;
+import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.watashi.tubelab.dto.VideoInfo;
 import com.watashi.tubelab.repository.VideoRepository;
 import com.watashi.tubelab.schemas.Video;
 
@@ -27,7 +30,7 @@ public class VideoService {
     }
 
     public ResponseEntity<Resource> stream(String id) {
-        Resource resource = repository.stream(id);
+        Resource resource = repository.get(id);
 
         if(!resource.exists()) {
             return ResponseEntity.notFound().build();
@@ -37,6 +40,10 @@ public class VideoService {
                 .contentType(MediaType.valueOf("video/mp4"))
                 .body(resource);
 
+    }
+
+    public List<VideoInfo> getVideos() {
+        return repository.findAll();
     }
 
 }

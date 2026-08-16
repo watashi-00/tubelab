@@ -1,6 +1,7 @@
 package com.watashi.tubelab.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.watashi.tubelab.dto.VideoInfo;
 import com.watashi.tubelab.services.VideoService;
 
 @RestController
@@ -28,9 +30,15 @@ public class VideoController {
     }
 
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}/stream")
     public ResponseEntity<Resource> stream(@PathVariable String id) throws IOException {
         return service.stream(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<VideoInfo>> getVideos() {
+        return ResponseEntity.ok(service.getVideos());
+
     }
 
 }
