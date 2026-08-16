@@ -1,4 +1,4 @@
-package com.watashi.bitcast.services;
+package com.watashi.bitcast.application.service;
 
 import java.io.InputStream;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.watashi.bitcast.api.dto.VideoInfo;
-import com.watashi.bitcast.repository.VideoRepository;
-import com.watashi.bitcast.schemas.Video;
+import com.watashi.bitcast.domain.video.Video;
+import com.watashi.bitcast.domain.video.VideoRepository;
 
 @Service
 public class VideoService {

@@ -1,4 +1,4 @@
-package com.watashi.bitcast.schemas;
+package com.watashi.bitcast.domain.video;
 
 import java.util.UUID;
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.watashi.bitcast.api.dto.VideoInfo;
-import com.watashi.bitcast.services.VideoService;
+import com.watashi.bitcast.application.service.VideoService;
 
 @RestController
 @CrossOrigin(origins = "*")

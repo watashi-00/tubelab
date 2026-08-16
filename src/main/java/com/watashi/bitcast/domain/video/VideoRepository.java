@@ -1,4 +1,4 @@
-package com.watashi.bitcast.repository;
+package com.watashi.bitcast.domain.video;
 
 import java.io.IOException;
 import java.io.InputStream;
