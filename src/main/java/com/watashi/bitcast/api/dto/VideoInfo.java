@@ -1,4 +1,4 @@
-package com.watashi.bitcast.dto;
+package com.watashi.bitcast.api.dto;
 
 public record VideoInfo(String id) {
     

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.bitcast.dto.VideoInfo;
+import com.watashi.bitcast.api.dto.VideoInfo;
 import com.watashi.bitcast.repository.VideoRepository;
 import com.watashi.bitcast.schemas.Video;
 

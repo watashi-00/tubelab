@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.bitcast.dto.VideoInfo;
+import com.watashi.bitcast.api.dto.VideoInfo;
 
 @Repository
 public class VideoRepository {

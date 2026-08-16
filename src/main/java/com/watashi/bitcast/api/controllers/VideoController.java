@@ -1,4 +1,4 @@
-package com.watashi.bitcast.controllers;
+package com.watashi.bitcast.api.controllers;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.bitcast.dto.VideoInfo;
+import com.watashi.bitcast.api.dto.VideoInfo;
 import com.watashi.bitcast.services.VideoService;
 
 @RestController
