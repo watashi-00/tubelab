@@ -1,4 +1,4 @@
-package com.watashi.tubelab.repository;
+package com.watashi.bitcast.repository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +14,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.tubelab.dto.VideoInfo;
+import com.watashi.bitcast.dto.VideoInfo;
 
 @Repository
 public class VideoRepository {
 
-    private final Path storagePath = Paths.get("tubelab/videos");
+    private final Path storagePath = Paths.get("bitcast/videos");
     
     public boolean save(InputStream input) {
 

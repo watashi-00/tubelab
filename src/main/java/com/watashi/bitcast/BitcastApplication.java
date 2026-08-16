@@ -1,13 +1,13 @@
-package com.watashi.tubelab;
+package com.watashi.bitcast;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TubelabApplication {
+public class BitcastApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TubelabApplication.class, args);
+		SpringApplication.run(BitcastApplication.class, args);
 	}
 
 }

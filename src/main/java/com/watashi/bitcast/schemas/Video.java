@@ -1,4 +1,4 @@
-package com.watashi.tubelab.schemas;
+package com.watashi.bitcast.schemas;
 
 import java.util.UUID;
 

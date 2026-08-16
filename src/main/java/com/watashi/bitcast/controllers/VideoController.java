@@ -1,4 +1,4 @@
-package com.watashi.tubelab.controllers;
+package com.watashi.bitcast.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.tubelab.dto.VideoInfo;
-import com.watashi.tubelab.services.VideoService;
+import com.watashi.bitcast.dto.VideoInfo;
+import com.watashi.bitcast.services.VideoService;
 
 @RestController
 @RequestMapping("/videos")

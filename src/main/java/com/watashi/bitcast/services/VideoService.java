@@ -1,4 +1,4 @@
-package com.watashi.tubelab.services;
+package com.watashi.bitcast.services;
 
 import java.io.InputStream;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.tubelab.dto.VideoInfo;
-import com.watashi.tubelab.repository.VideoRepository;
-import com.watashi.tubelab.schemas.Video;
+import com.watashi.bitcast.dto.VideoInfo;
+import com.watashi.bitcast.repository.VideoRepository;
+import com.watashi.bitcast.schemas.Video;
 
 @Service
 public class VideoService {

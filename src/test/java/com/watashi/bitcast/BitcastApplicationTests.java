@@ -1,10 +1,10 @@
-package com.watashi.tubelab;
+package com.watashi.bitcast;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TubelabApplicationTests {
+class BitcastApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,4 +1,4 @@
-package com.watashi.tubelab.dto;
+package com.watashi.bitcast.dto;
 
 public record VideoInfo(String id) {
     

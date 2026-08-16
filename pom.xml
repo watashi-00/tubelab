@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.watashi</groupId>
-	<artifactId>tubelab</artifactId>
+	<artifactId>bitcast</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tubelab</name>
+	<name>bitcast</name>
 	<description/>
 	<url/>
 	<licenses>
