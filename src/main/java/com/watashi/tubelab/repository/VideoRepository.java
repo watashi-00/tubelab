@@ -7,11 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+
 import com.watashi.tubelab.schemas.Video;
 
+@Repository
 public class VideoRepository {
 
-    private final Path storagePath = Paths.get("tubelab/vidoes");
+    private final Path storagePath = Paths.get("tubelab/videos");
     
     public boolean save(Video video, InputStream input) {
 
