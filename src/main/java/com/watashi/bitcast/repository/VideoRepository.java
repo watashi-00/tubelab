@@ -71,4 +71,27 @@ public class VideoRepository {
         }
     }
 
+    public void update(Path source, String id) {
+        Path destination = storagePath.resolve(id + ".mp4");
+        
+        try{
+            Files.copy(source, destination, 
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        
+    }
+
+    public void delete(String id) {
+        Path file = storagePath.resolve(id + ".mp4");
+
+        try {
+            Files.deleteIfExists(file);   
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
