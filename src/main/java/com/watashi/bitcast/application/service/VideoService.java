@@ -1,9 +1,12 @@
 package com.watashi.bitcast.application.service;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,40 +16,101 @@ import org.springframework.web.multipart.MultipartFile;
 import com.watashi.bitcast.api.dto.VideoInfo;
 import com.watashi.bitcast.domain.video.Video;
 import com.watashi.bitcast.domain.video.VideoRepository;
+import com.watashi.bitcast.domain.video.VideoStorage;
 
 @Service
 public class VideoService {
 
-    @Autowired
-    VideoRepository repository;
+    private final VideoRepository repository;
+    private final VideoStorage storage;
+
+    public VideoService(
+            @Qualifier("JpaVideoRepository") VideoRepository repository,
+            @Qualifier("LocalVideoStorage") VideoStorage storage) {
+
+        this.repository = repository;
+        this.storage = storage;
+    }
 
     public boolean save(Video video, InputStream input) {
-        return repository.save(input);
+
+        try {
+            storage.save(video.getStorageKey(), input);
+            repository.save(video);
+
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public boolean save(MultipartFile input) {
-        return repository.save(input);
+
+        try {
+            UUID id = UUID.randomUUID();
+
+            Video video = new Video(
+                id,
+                input.getOriginalFilename(),
+                input.getContentType(),
+                input.getSize(),
+                id.toString(),
+                Instant.now()
+            );
+
+            return save(video, input.getInputStream());
+
+        } catch (IOException e) {
+            return false;
+        }
     }
 
-    public ResponseEntity<Resource> stream(String id) {
-        Resource resource = repository.get(id);
+    public ResponseEntity<Resource> stream(UUID id) {
 
-        if(!resource.exists()) {
+        Video video = repository.findById(id)
+                .orElse(null);
+
+        if (video == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.valueOf("video/mp4"))
-                .body(resource);
+        try {
+            InputStream input = storage.read(video.getStorageKey());
 
+            Resource resource = new org.springframework.core.io.InputStreamResource(input);
+
+            return ResponseEntity.ok()
+                    .contentType(
+                        MediaType.parseMediaType(video.getContentType())
+                    )
+                    .contentLength(video.getSize())
+                    .body(resource);
+
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    public List<VideoInfo> getVideos() {
+    public List<Video> getVideos() {
         return repository.findAll();
     }
 
-    public String delete(String id) {
-        return repository.delete(id) ? "deleted" : "no exists";
-    }
+    public boolean delete(UUID id) {
 
+        Video video = repository.findById(id)
+                .orElse(null);
+
+        if (video == null) {
+            return false;
+        }
+
+        try {
+            storage.delete(video.getStorageKey());
+            repository.delete(id);
+
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 }

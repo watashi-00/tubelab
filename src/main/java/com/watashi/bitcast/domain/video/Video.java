@@ -1,47 +1,54 @@
 package com.watashi.bitcast.domain.video;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class Video {
-    private UUID id;
-    private String title;
-    private String description;
 
-    private String filename;
-    private String size;
-    private String contentType;
+    private final UUID id;
+    private final String originalFilename;
+    private final String contentType;
+    private final long size;
+    private final String storageKey;
+    private final Instant createdAt;
 
-    public Video (UUID id, String title, String description, String filename, String size, String contentType) {
+    public Video(
+            UUID id,
+            String originalFilename,
+            String contentType,
+            long size,
+            String storageKey,
+            Instant createdAt) {
+
         this.id = id;
-        this.title = title;
-        this.description = description;
-        this.filename = filename;
-        this.size = size;
+        this.originalFilename = originalFilename;
         this.contentType = contentType;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getFilename() {
-        return filename;
+        this.size = size;
+        this.storageKey = storageKey;
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public String getSize() {
+    public String getOriginalFilename() {
+        return originalFilename;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public long getSize() {
         return size;
     }
 
-    public String getTitle() {
-        return title;
+    public String getStorageKey() {
+        return storageKey;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 }

@@ -1,6 +1,7 @@
 package com.watashi.bitcast.api.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.bitcast.api.dto.VideoInfo;
 import com.watashi.bitcast.application.service.VideoService;
+import com.watashi.bitcast.domain.video.Video;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -33,17 +34,17 @@ public class VideoController {
 
 
     @GetMapping("/{id}/stream")
-    public ResponseEntity<Resource> stream(@PathVariable String id) {
+    public ResponseEntity<Resource> stream(@PathVariable UUID id) {
         return service.stream(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<VideoInfo>> getVideos() {
+    public ResponseEntity<List<Video>> getVideos() {
         return ResponseEntity.ok(service.getVideos());
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
+    public boolean delete(@PathVariable UUID id) {
         return service.delete(id);
     }
 
