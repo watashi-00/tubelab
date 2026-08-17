@@ -2,7 +2,6 @@ package com.watashi.bitcast.application.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,8 +52,7 @@ public class VideoService {
                 input.getOriginalFilename(),
                 input.getContentType(),
                 input.getSize(),
-                id.toString(),
-                Instant.now()
+                id.toString()
             );
 
             return save(video, input.getInputStream());
