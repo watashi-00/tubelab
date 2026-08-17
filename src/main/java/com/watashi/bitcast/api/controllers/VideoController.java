@@ -1,5 +1,10 @@
 package com.watashi.bitcast.api.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,5 +52,54 @@ public class VideoController {
     public boolean delete(@PathVariable UUID id) {
         return service.delete(id);
     }
+
+    @PostMapping("/chunk")
+    public ResponseEntity<String> uploadChunk(  @RequestParam("file") MultipartFile chunk,
+                                                @RequestParam("chunkNumber") int chunkNumber,
+                                                @RequestParam("totalChunks") int totalChunks,
+                                                @RequestParam("identifier") String identifier) {
+
+        try {
+            Files.createDirectories(Paths.get("bitcast/temp"));
+            Files.createDirectories(Paths.get("bitcast/videos"));
+
+            String chunkFileName = identifier + "_" + chunkNumber + ".part";
+            Path chunkPath       = Paths.get("bitcast/temp", chunkFileName);
+
+            Files.write(chunkPath, chunk.getBytes());
+
+            if (chunkNumber == totalChunks - 1) {
+                mergeChunk(identifier, totalChunks);
+            }
+
+            return ResponseEntity.ok("Chunk" + chunkNumber + "ok");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    private void mergeChunk(String identifier, int totalChunks) throws IOException {
+        Path finalFilePath = Paths.get("bitcast/videos", identifier + ".mp4");
+
+        Files.deleteIfExists(finalFilePath);
+        Files.createFile(finalFilePath);
+
+        for (int i = 0; i < totalChunks; i++) {
+            Path chunkPath = Paths.get("bitcas/temp", identifier + "_" + i + ".part");
+
+            if (!Files.exists(chunkPath)) {
+                throw new IOException("Chunk" + i);
+            }
+
+            byte[] chunkBytes = Files.readAllBytes(chunkPath);
+            Files.write(finalFilePath, chunkBytes, StandardOpenOption.APPEND);
+
+            Files.delete(chunkPath);
+
+        }
+    }
+
+
 
 }
