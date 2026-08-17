@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.watashi.bitcast.api.dto.VideoInfo;
 import com.watashi.bitcast.domain.video.Video;
 import com.watashi.bitcast.domain.video.VideoRepository;
 import com.watashi.bitcast.domain.video.VideoStorage;
